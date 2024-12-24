@@ -1,32 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useState, useEffect } from 'react'
+import React from 'react';
+import Plot from 'react-plotly.js';
+
 import './App.css'
 
+function BarChart(input_data) {
+  return (
+    <Plot
+      data={[
+        {
+          x: ['Apples', 'Oranges', 'Bananas'],
+          y: [20, 14, 23],
+          type: 'bar',
+        },
+      ]}
+      layout={{
+        autosize: true,
+        title: 'Fruit Sales',
+      }}
+      config={{
+        responsive: true, // Ensure the chart resizes with the window
+      }}
+      style={{ width: '100%', height: '100%' }}
+    />
+  );
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    // Define the fetch function
+    const fetchData = async () => {
+      const response = await fetch('http://10.75.128.87:8002/sample');
+      const result = await response.json();
+      console.log(result);
+
+      for (const key in result) {
+        result[key] = Object.values(result[key]);
+      }
+      setData(result);
+
+    }
+    fetchData();
+  }, []);
+
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Coal Washability Analysis</h1>
+      <h4>{JSON.stringify(data)}</h4>
+      <BarChart />
     </div>
   )
 }
