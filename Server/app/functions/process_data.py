@@ -1,7 +1,12 @@
 import pandas as pd
+import numpy as np
+import warnings
+warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 def process_data(data):
-    data['C'] = data['B'] / data['B'].sum() * 100
+    data['C'] = np.nan
+    data['C'] = (data['B'] / data['B'].sum()) * 100
     data['D'] = data['C'].cumsum()
     data['F'] = data['C'] * data['E'] / 100
     data['G'] = data['F'].cumsum()
