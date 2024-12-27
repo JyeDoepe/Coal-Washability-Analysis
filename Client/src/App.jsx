@@ -75,7 +75,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://192.168.20.14:8002/sample');
+      const response = await fetch('http://10.75.128.94:8002/sample');
       const result = await response.json();
       for (const key in result) {
         result[key] = Object.values(result[key]);
