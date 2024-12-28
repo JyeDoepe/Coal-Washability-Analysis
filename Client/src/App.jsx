@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import React from 'react';
 import Plot from 'react-plotly.js';
+import { Input, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import './App.css'
 
@@ -70,17 +72,15 @@ function BarChart(input_data) {
 }
 
 function App() {
-  const [data, setData] = useState('');
-  const [chart, setchart] = useState('');
+  const [chart, setchart] = useState(<Spin indicator={<LoadingOutlined spin />} size="large" />);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://10.75.128.94:8002/sample');
+      const response = await fetch('http://192.168.56.1:8002/sample');
       const result = await response.json();
       for (const key in result) {
         result[key] = Object.values(result[key]);
       }
-      setData(result);
       setchart(BarChart(result));
     }
     fetchData();
@@ -89,8 +89,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1 style={{ width: '1200px' }}>Coal Washability Analysis</h1>
+      <h1>Coal Washability Analysis</h1>
       {chart}
+      <Input 
+        placeholder="First Coal Product Ash %" 
+        onChange={(e) => console.log(e.target.value)}
+      />
     </div>
   )
 }
