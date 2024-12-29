@@ -15,7 +15,7 @@ def process_data(data):
     data['J'] = 100 - data['D']
     data['K'] = data['I'] / data['J'] * 100
     data['M'] = None
-    for i, row in data.iterrows():
+    for i, _ in data.iterrows():
         if i == 0:
             data['M'][i] = data['C'][i] / 2
         else:
