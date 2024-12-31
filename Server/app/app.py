@@ -31,4 +31,5 @@ async def add_ash(request: Request):
     data = await request.json()
     sample_data = pd.DataFrame(data['data'])
     res = ash_to_sg(sample_data, float(data['ash']))
+    print(res)
     return res
